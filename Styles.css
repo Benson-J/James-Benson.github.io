@@ -41,9 +41,8 @@ header {
     -ms-flex-align: start;
     align-items: flex-start;
     padding: 20px;
-    /*height: 20vh;*/
-    height: 200px;
-    /*min-height: 140px;*/
+    height: 20vh;
+    min-height: 140px;
     max-width: 100vw;
 }
 
@@ -79,7 +78,6 @@ header nav {
     -ms-flex-align: end;
     align-items: flex-end;
     width: 7rem;
-    height: 200px;
 }
 
 .sociallinks a {
