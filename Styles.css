@@ -77,6 +77,7 @@ header nav {
     flex-direction: column;
     -ms-flex-align: end;
     align-items: flex-end;
+    height: 140px;
     width: 7rem;
 }
 
