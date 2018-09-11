@@ -16,6 +16,7 @@ body {
     background-size: 100vw auto;
     background-repeat: no-repeat;
     font-family: "Helvetica", Arial, sans-serif;
+
 }
 
 @media only screen and (max-aspect-ratio: 4016/6016) {
@@ -55,7 +56,7 @@ header a {
 
 header nav {
     display: -ms-flexbox;
-    /*display: flex;*/
+    display: flex;
 }
 
 .topnav {
@@ -71,9 +72,9 @@ header nav {
 
 .sociallinks {
     -ms-flex-direction: column;
-    /*flex-direction: column;*/
-    -ms-flex-align: end;
-    /*align-items: flex-end;*/
+    flex-direction: column;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
     width: 7rem;
     height: 2000px;
 }
