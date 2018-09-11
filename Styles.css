@@ -79,6 +79,7 @@ header nav {
     -ms-flex-align: end;
     align-items: flex-end;
     width: 7rem;
+    height: 200px;
 }
 
 .sociallinks a {
