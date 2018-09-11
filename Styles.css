@@ -16,7 +16,10 @@ body {
     background-size: 100vw auto;
     background-repeat: no-repeat;
     font-family: "Helvetica", Arial, sans-serif;
-
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 @media only screen and (max-aspect-ratio: 4016/6016) {
@@ -31,7 +34,6 @@ a {
 }
 
 header {
-
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: justify;
