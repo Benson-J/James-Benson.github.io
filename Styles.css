@@ -75,8 +75,8 @@ header nav {
 .sociallinks {
     -ms-flex-direction: column;
     flex-direction: column;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
+    -ms-flex-align: end;
+    align-items: flex-end;
     width: 7rem;
 }
 
