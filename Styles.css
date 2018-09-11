@@ -84,6 +84,7 @@ header nav {
 
 .sociallinks a {
     padding: 5px;
+    display: block;
 }
 
 main {
