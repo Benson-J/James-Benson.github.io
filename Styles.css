@@ -55,8 +55,8 @@ header a {
 }
 
 header nav {
-    display: -ms-flexbox;
     display: flex;
+    display: -ms-flexbox;
 }
 
 .topnav {
