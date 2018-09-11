@@ -2,9 +2,74 @@
     box-sizing: border-box;
 }
 
-section {
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 2rem;
+    color: #ffffff;
+    background-image: url("BG.jpeg");
+    /*https://images.unsplash.com/photo-1536559692556-79e8be88e8ab?w=2008*/
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100vw auto;
+    background-repeat: no-repeat;
+    font-family: "Helvetica", Arial, sans-serif;
+}
+
+@media only screen and (max-aspect-ratio: 4016/6016) {
+    body {
+        background-size: auto 100vh;
+    }
+}
+
+a {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+header {
+
     display: -ms-flexbox;
     display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    padding: 20px;
+    height: 20vh;
+    min-height: 140px;
+    max-width: 100vw;
+}
+
+.Homebutton {
+    font-family: "Brush Script MT", Arial, sans-serif;
+    font-size: 3rem;
+    width: 7rem;
+}
+
+header a {
+    padding: 5px;
+}
+
+header nav {
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.topnav {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.topnav a {
+    margin: 0 10px;
+}
+
+.sociallinks {
     -ms-flex-direction: column;
     flex-direction: column;
     -ms-flex-align: end;
@@ -12,3 +77,46 @@ section {
     width: 7rem;
     height: 2000px;
 }
+
+.sociallinks a {
+    padding: 5px;
+}
+
+main {
+    width: 60vw;
+    margin: auto;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 60vh;
+}
+
+@media only screen and (max-width: 600px) {
+    header {
+        height: 140px;
+    }
+    main {
+        -ms-flex-align: start;
+        align-items: flex-start;
+        width: 360px
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    main {
+        width: 100vw
+    }
+}
+
+span {
+    display: block;
+    max-width: 100%;
+    font-size: 5rem;
+    text-align: center;
+}
+
