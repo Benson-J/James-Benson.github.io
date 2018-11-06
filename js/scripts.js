@@ -30,7 +30,7 @@ function init() {
     light.position.y = 10
 
     material1 = new THREE.MeshLambertMaterial({color: 0xffff88})
-    material2 = new THREE.MeshLambertMaterial({color: 0xaaaaff})
+    material2 = new THREE.MeshLambertMaterial({color: 0x0000ff})
 
     sunGeometry = new THREE.SphereGeometry(3)
     sunMesh = new THREE.Mesh(sunGeometry, material1)
