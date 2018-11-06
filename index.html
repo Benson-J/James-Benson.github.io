@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Cube</title>
+    <link rel="manifest" href="manifest.json">
     <script src="js/three.min.js" defer></script>
+    <script src="js/OrbitControls.js" defer></script>
     <script src="js/scripts.js" defer></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+                console.log('ServiceWorker registration successful!')
+            }).catch(function (err) {
+                console.log('ServiceWorker registration failed: ', err)
+            })
+        }
+    </script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
