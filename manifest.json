@@ -1,8 +1,8 @@
 {
-  "name": "Orbit",
-  "short_name": "Orbit",
+  "name": "Plane",
+  "short_name": "Plane",
   "theme_color": "#00ff00",
-  "background_color": "#ff0000",
+  "background_color": "#00ff00",
   "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
