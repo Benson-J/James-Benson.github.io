@@ -2,6 +2,16 @@ let stats = new Stats()
 stats.showPanel(0)
 document.body.appendChild(stats.dom)
 
+let canvasWidth
+let canvasHeight
+if (window.innerWidth >= window.innerHeight) {
+    canvasHeight = window.innerHeight
+    canvasWidth = window.innerHeight
+} else {
+    canvasHeight = window.innerWidth
+    canvasWidth = window.innerWidth
+}
+
 let camera, scene, renderer, light
 let direction = {x:0,y:0,z:0}
 let velocity = {x:0,y:0,z:0}
@@ -60,7 +70,7 @@ animate()
 
 function init() {
 
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 100000)
+    camera = new THREE.PerspectiveCamera(50, canvasWidth / canvasHeight, 0.01, 100000)
     camera.position.z = 10
 
     scene = new THREE.Scene()
@@ -91,7 +101,7 @@ function init() {
     laserMesh.position.z = -50
 
     renderer = new THREE.WebGLRenderer({antialias: true })
-    renderer.setSize(window.innerWidth, window.innerHeight-5)
+    renderer.setSize(canvasWidth, canvasHeight-5)
     document.body.appendChild(renderer.domElement)
 }
 
@@ -118,7 +128,7 @@ function animate() {
         velocity.y = Math.sign(velocity.y) * 2
     }
 
-    if (Math.abs(planeMesh.position.x) < 6 || velocity.x * Math.sign(planeMesh.position.x) <= 0) {
+    if (Math.abs(planeMesh.position.x) < 4 || velocity.x * Math.sign(planeMesh.position.x) <= 0) {
         planeMesh.position.x += 0.05 * velocity.x
     }
     if (Math.abs(planeMesh.position.y) < 4 || velocity.y * Math.sign(planeMesh.position.y) <= 0) {
