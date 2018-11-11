@@ -5,3 +5,14 @@
 body {
     margin: 0;
 }
+
+canvas {
+    margin: 0 auto;
+    display: block;
+}
+
+#startButton {
+    width: 100px;
+    height: 100px;
+    background: #0f0;
+}

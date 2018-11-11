@@ -4,13 +4,6 @@ document.body.appendChild(stats.dom)
 
 let canvasWidth
 let canvasHeight
-if (window.innerWidth >= window.innerHeight) {
-    canvasHeight = window.innerHeight
-    canvasWidth = window.innerHeight
-} else {
-    canvasHeight = window.innerWidth
-    canvasWidth = window.innerWidth
-}
 
 let camera, scene, renderer, light
 let direction = {x:0,y:0,z:0}
@@ -22,6 +15,20 @@ let shoot = 0
 let planeMaterial, planeGeometry, planeMesh
 
 let laserMaterial, laserGeometry, laserMesh
+
+document.querySelector('#startButton').addEventListener('click', (e) => {
+    // document.documentElement.webkitRequestFullScreen().then(function () {
+    //     e.target.remove()
+    //     init()
+    //     animate()
+    // })
+    document.documentElement.webkitRequestFullScreen()
+    setTimeout(function () {
+        e.target.remove()
+        init()
+        animate()
+    }, 1000)
+})
 
 document.addEventListener('keydown', (e) => {
     if(!e.repeat) {
@@ -41,8 +48,12 @@ document.addEventListener('keydown', (e) => {
             case ' ':
                 shoot = 1
                 break
+            case 'Escape':
+                document.documentElement.webkitRequestFullScreen()
+                break
         }
     }
+    console.log(e.key)
 })
 
 document.addEventListener('keyup', (e) => {
@@ -65,11 +76,16 @@ document.addEventListener('keyup', (e) => {
     }
 })
 
-init()
-animate()
-
 function init() {
 
+    if (window.innerWidth >= window.innerHeight) {
+        canvasHeight = window.innerHeight
+        canvasWidth = window.innerHeight
+    } else {
+        canvasHeight = window.innerWidth
+        canvasWidth = window.innerWidth
+    }
+    
     camera = new THREE.PerspectiveCamera(50, canvasWidth / canvasHeight, 0.01, 100000)
     camera.position.z = 10
 
