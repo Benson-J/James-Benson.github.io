@@ -143,6 +143,7 @@ function init() {
     document.querySelector('canvas').addEventListener('touchstart', function (e) {
         touchX = e.touches[0].screenX
         touchY = e.touches[0].screenY
+        shoot = 1
     })
 
     document.querySelector('canvas').addEventListener('touchmove', function (e) {
@@ -152,15 +153,16 @@ function init() {
             direction.x = -1
         }
         if (e.touches[0].screenY > touchY) {
-            direction.y = 1
-        } else {
             direction.y = -1
+        } else {
+            direction.y = 1
         }
     })
 
     document.querySelector('canvas').addEventListener('touchend', function (e) {
-            direction.x = 0
-            direction.y = 0
+        direction.x = 0
+        direction.y = 0
+        shoot = 0
     })
 }
 
