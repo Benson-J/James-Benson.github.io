@@ -140,9 +140,14 @@ function init() {
     //     cancelAnimationFrame(animation)
     // })
 
+    let tracker = document.querySelector('.tracker')
+
     document.querySelector('html').addEventListener('touchstart', function (e) {
         touchX = e.touches[0].screenX
         touchY = e.touches[0].screenY
+        tracker.style.display = 'block'
+        tracker.style.left = touchX + 'px'
+        tracker.style.top = touchY + 'px'
         shoot = 1
     })
 
@@ -159,7 +164,7 @@ function init() {
         }
     })
 
-    document.querySelector('html').addEventListener('touchend', function (e) {
+    document.querySelector('html').addEventListener('touchend', function () {
         direction.x = 0
         direction.y = 0
         shoot = 0
@@ -282,7 +287,7 @@ function planeControls() {
 function createPlane2() {
     plane2Geometry = new THREE.Geometry()
     plane2Geometry.vertices = [
-        new THREE.Vector3(0, 0, -1),     // 0 front
+        new THREE.Vector3(0, 0, -1),    // 0 front
         new THREE.Vector3(0, 0.2, 1),   // 1 top
         new THREE.Vector3(0, -.2, 1),   // 2 bottom
         new THREE.Vector3(1, 0, 2),     // 3 right

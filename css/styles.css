@@ -17,3 +17,11 @@ canvas {
     background: #00f;
     margin: 0 auto;
 }
+
+.tracker {
+    width: 10px;
+    height: 10px;
+    background: #f0f;
+    position: absolute;
+    display: none;
+}
