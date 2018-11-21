@@ -140,13 +140,13 @@ function init() {
     //     cancelAnimationFrame(animation)
     // })
 
-    document.querySelector('body').addEventListener('touchstart', function (e) {
+    document.querySelector('html').addEventListener('touchstart', function (e) {
         touchX = e.touches[0].screenX
         touchY = e.touches[0].screenY
         shoot = 1
     })
 
-    document.querySelector('body').addEventListener('touchmove', function (e) {
+    document.querySelector('html').addEventListener('touchmove', function (e) {
         if (e.touches[0].screenX > touchX) {
             direction.x = 1
         } else {
@@ -159,7 +159,7 @@ function init() {
         }
     })
 
-    document.querySelector('body').addEventListener('touchend', function (e) {
+    document.querySelector('html').addEventListener('touchend', function (e) {
         direction.x = 0
         direction.y = 0
         shoot = 0
