@@ -167,6 +167,7 @@ function init() {
     document.querySelector('html').addEventListener('touchend', function () {
         direction.x = 0
         direction.y = 0
+        tracker.style.display = 'none'
         shoot = 0
     })
 }
