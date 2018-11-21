@@ -141,7 +141,26 @@ function init() {
     // })
 
     document.querySelector('canvas').addEventListener('touchstart', function (e) {
-        cancelAnimationFrame(animation)
+        touchX = e.touches[0].screenX
+        touchY = e.touches[0].screenY
+    })
+
+    document.querySelector('canvas').addEventListener('touchmove', function (e) {
+        if (e.touches[0].screenX > touchX) {
+            direction.x = 1
+        } else {
+            direction.x = -1
+        }
+        if (e.touches[0].screenY > touchY) {
+            direction.y = 1
+        } else {
+            direction.y = -1
+        }
+    })
+
+    document.querySelector('canvas').addEventListener('touchend', function (e) {
+            direction.x = 0
+            direction.y = 0
     })
 }
 
