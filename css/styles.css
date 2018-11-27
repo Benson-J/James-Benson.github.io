@@ -12,16 +12,29 @@ canvas {
 }
 
 #startButton {
-    width: 100px;
-    height: 100vh;
-    background: #f0f;
+    background: #0f0;
     margin: 0 auto;
+    text-align: center;
 }
 
-.tracker {
-    width: 10px;
-    height: 10px;
-    background: #f0f;
+.circle {
+    width: 25vw;
+    height: 25vw;
+    border-radius: 50%;
     position: absolute;
-    display: none;
+    bottom: 12.5%;
+    left: 62.5%;
+}
+
+.shootButton {
+    background: #ff0000;
+    left: 12.5%;
+}
+
+.joyBase {
+    background: #ff00ff;
+}
+
+.joyStick {
+    background: #00ff00;
 }

@@ -2,39 +2,31 @@
 // stats.showPanel(0)
 // document.body.appendChild(stats.dom)
 
-let canvasWidth
-let canvasHeight
+let canvasWidth, canvasHeight
 let animation
 
 let camera, scene, renderer, light
 let direction = {x:0,y:0,z:0}
 let velocity = {x:0,y:0,z:0}
-let mineFrameCount = 0
-let bulletFrameCount = 0
 let shoot = 0
 
-let planeMaterial, planeGeometry, planeMesh
-let plane2Material, plane2Geometry, plane2Mesh
+let planeMesh = createPlane2()
 
 let laserMaterial, laserGeometry, laserMesh
 
-let bullets = {}
-let bulletNo = 0
-let bulletGeometry = new THREE.SphereGeometry(.1, 1, 1)
+let bullets = {}, bulletNo = 0, bulletGeometry = new THREE.SphereGeometry(.1, 1, 1)
 
-let mines = {}
-let mineNo = 0
-let mineGeometry = new THREE.SphereGeometry(.5)
+let mines = {}, mineNo = 0, mineGeometry = new THREE.SphereGeometry(.5)
 
-let touchX
-let touchY
+let xOrigin, xDisplacement
+let yOrigin, yDisplacement
 
 document.querySelector('#startButton').addEventListener('click', (e) => {
     document.documentElement.webkitRequestFullScreen()
     setTimeout(function () {
         e.target.remove()
         init()
-        animate()
+        animate(0,0)
     }, 500)
 })
 
@@ -52,23 +44,12 @@ document.addEventListener('keydown', (e) => {
                 break
             case 'd':
                 direction.x += 1
-                console.log(bullets)
                 break
             case ' ':
                 shoot = 1
                 break
-            case 'Escape':
-                document.documentElement.webkitRequestFullScreen()
-                break
-            case '=':
-                animation = requestAnimationFrame(animate)
-                break
-            case '-':
-                cancelAnimationFrame(animation)
-                break
         }
     }
-    console.log(e.key)
 })
 
 document.addEventListener('keyup', (e) => {
@@ -120,11 +101,7 @@ function init() {
         0,2,3, 2,1,3, 0,4,2, 0,3,4, 1,2,4, 1,4,3
     ]
 
-    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, emissive: 0x005500})
-    planeGeometry = new THREE.PolyhedronGeometry(polyVertices,polyFaces,1)
-    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
-    // scene.add(planeMesh)
-    createPlane2()
+    scene.add(planeMesh)
 
     laserMaterial = new THREE.MeshLambertMaterial({color: 0x000000, emissive: 0xff7777})
     laserGeometry = new THREE.BoxGeometry(.03, .03, 100)
@@ -132,50 +109,17 @@ function init() {
     scene.add(laserMesh)
     laserMesh.position.z = -50
 
-    renderer = new THREE.WebGLRenderer({antialias: true })
+    renderer = new THREE.WebGLRenderer({antialias: true})
     renderer.setSize(canvasWidth, canvasHeight-5)
-    document.body.appendChild(renderer.domElement)
+    document.querySelector('body').insertAdjacentElement('afterbegin', renderer.domElement)
 
-    // document.querySelector('canvas').addEventListener('click', function (e) {
-    //     cancelAnimationFrame(animation)
-    // })
-
-    let tracker = document.querySelector('.tracker')
-
-    document.querySelector('html').addEventListener('touchstart', function (e) {
-        touchX = e.touches[0].screenX
-        touchY = e.touches[0].screenY
-        tracker.style.display = 'block'
-        tracker.style.left = touchX + 'px'
-        tracker.style.top = touchY + 'px'
-        shoot = 1
-    })
-
-    document.querySelector('html').addEventListener('touchmove', function (e) {
-        if (e.touches[0].screenX > touchX) {
-            direction.x = 1
-        } else {
-            direction.x = -1
-        }
-        if (e.touches[0].screenY > touchY) {
-            direction.y = -1
-        } else {
-            direction.y = 1
-        }
-    })
-
-    document.querySelector('html').addEventListener('touchend', function () {
-        direction.x = 0
-        direction.y = 0
-        tracker.style.display = 'none'
-        shoot = 0
-    })
+    touchControls()
 }
 
-function animate() {
+function animate(bulletFrameCount, mineFrameCount) {
     // stats.begin()
 
-    planeControls()
+    planeMovement()
 
     laserMesh.position.x = planeMesh.position.x
     laserMesh.position.y = planeMesh.position.y
@@ -196,7 +140,7 @@ function animate() {
 
     renderer.render(scene, camera)
     // stats.end()
-    animation = requestAnimationFrame(animate)
+    animation = requestAnimationFrame(()=> animate(bulletFrameCount, mineFrameCount))
 }
 
 function createMine() {
@@ -253,9 +197,9 @@ function destroyMesh(mesh, array, key) {
     delete array[key]
 }
 
-function planeControls() {
-    if (direction.x && (Math.abs(planeMesh.position.x) < 6 || direction.x * Math.sign(planeMesh.position.x) <= 0)) {
-        velocity.x += 0.1 * direction.x
+function planeMovement() {
+    if (direction.x) {
+        velocity.x += 0.2 * direction.x
     } else {
         velocity.x -= 0.1 * Math.sign(velocity.x)
         velocity.x = (Math.abs(velocity.x) <= 0.1 ? 0 : velocity.x)
@@ -264,8 +208,8 @@ function planeControls() {
         velocity.x = Math.sign(velocity.x) * 2
     }
 
-    if (direction.y && (Math.abs(planeMesh.position.y) < 4 || direction.y * Math.sign(planeMesh.position.y) <= 0)) {
-        velocity.y += 0.1 * direction.y
+    if (direction.y) {
+        velocity.y += 0.2 * direction.y
     } else {
         velocity.y -= 0.1 * Math.sign(velocity.y)
         velocity.y = (Math.abs(velocity.y) < 0.1 ? 0 : velocity.y)
@@ -286,15 +230,16 @@ function planeControls() {
 }
 
 function createPlane2() {
-    plane2Geometry = new THREE.Geometry()
-    plane2Geometry.vertices = [
+    let planeGeometry = new THREE.Geometry()
+    let planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, emissive: 0x005500})
+    planeGeometry.vertices = [
         new THREE.Vector3(0, 0, -1),    // 0 front
         new THREE.Vector3(0, 0.2, 1),   // 1 top
         new THREE.Vector3(0, -.2, 1),   // 2 bottom
         new THREE.Vector3(1, 0, 2),     // 3 right
         new THREE.Vector3(-1, 0, 2)     // 4 left
     ]
-    plane2Geometry.faces = [
+    planeGeometry.faces = [
         new THREE.Face3(0, 1, 3),
         new THREE.Face3(0, 4, 1),
         new THREE.Face3(0, 3, 2),
@@ -302,10 +247,49 @@ function createPlane2() {
         new THREE.Face3(1, 2, 3),
         new THREE.Face3(1, 4, 2)
     ]
-    plane2Geometry.computeFaceNormals();
-    plane2Geometry.computeVertexNormals();
-    plane2Material = new THREE.MeshLambertMaterial({color: 0xffffff, emissive: 0x005500})
+    planeGeometry.computeFaceNormals();
+    planeGeometry.computeVertexNormals();
+    return new THREE.Mesh(planeGeometry, planeMaterial)
+}
 
-    planeMesh = new THREE.Mesh(plane2Geometry, plane2Material)
-    scene.add(planeMesh)
+function touchControls() {
+    let shootButton = document.querySelector('.shootButton')
+    let joyStick = document.querySelector('.joyStick')
+
+    shootButton.addEventListener('touchstart', function () {
+        shoot = 1
+    })
+
+    shootButton.addEventListener('touchend', function () {
+        shoot = 0
+    })
+
+    joyStick.addEventListener('touchstart', function (e) {
+        xOrigin = e.touches[0].screenX
+        yOrigin = e.touches[0].screenY
+    })
+
+    joyStick.addEventListener('touchmove', function (e) {
+        let radius = parseFloat(window.getComputedStyle(e.target).width) / 2
+        let distance
+        let xAngle, yAngle
+        xDisplacement = e.touches[0].screenX - xOrigin
+        yDisplacement = e.touches[0].screenY - yOrigin
+        distance = Math.sqrt(Math.pow(xDisplacement, 2) + Math.pow(yDisplacement, 2))
+        xAngle = Math.asin(xDisplacement/distance)
+        yAngle = Math.asin(yDisplacement/distance)
+        if (distance > radius) {
+            xDisplacement = Math.sin(xAngle) * radius
+            yDisplacement = Math.sin(yAngle) * radius
+        }
+        direction.x = xDisplacement / radius
+        direction.y = -yDisplacement / radius
+        e.target.style.transform = 'translate(' + xDisplacement + 'px, ' + yDisplacement + 'px)'
+    })
+
+    joyStick.addEventListener('touchend', function (e) {
+        e.target.style.transform = 'translate(0,0)'
+        direction.x = 0
+        direction.y = 0
+    })
 }
